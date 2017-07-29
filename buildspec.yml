@@ -1,0 +1,12 @@
+version: 0.1
+phases:
+  install:
+    commands:
+      - npm install time
+      - aws cloudformation package --template-file sam-template.yaml
+                                   --s3-bucket cs6030.dyndns
+                                   --output-template-file sam.yaml
+artifacts:
+  type: zip
+  files:
+    - sam.yaml
