@@ -18,3 +18,5 @@ Resources:
       Environment:
         Variables:
           TABLE_NAME: DynDNSTable
+  DynDNSTable:
+    Type: AWS::Serverless::SimpleTable
