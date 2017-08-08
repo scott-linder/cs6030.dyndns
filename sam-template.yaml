@@ -17,6 +17,6 @@ Resources:
             Method: POST
       Environment:
         Variables:
-          TABLE_NAME: DynDNSTable
+          TABLE_NAME: !Ref DynDNSTable
   DynDNSTable:
     Type: AWS::Serverless::SimpleTable
