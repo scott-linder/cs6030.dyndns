@@ -14,15 +14,3 @@ Resources:
           Properties:
             Path: /register/{subdomain}
             Method: POST
-      Environment:
-        Variables:
-          TABLE_NAME: !Ref DynDNSTable
-  DynDNSTable:
-    Type: AWS::ServerLess::SimpleTable
-    Properties:
-      PrimaryKey:
-        Name: subdomain
-        Type: String
-      ProvisionedThroughput:
-        ReadCapacityUnits: 5
-        WriteCapacityUnits: 5
