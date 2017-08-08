@@ -3,7 +3,7 @@ import re
 import boto3
 import uuid
 
-def handler(event, context):
+def put(event, context):
     subdomain = event['pathParameters']['subdomain']
     # regex to match valid subdomain label
     allowed = re.compile("(?!-)[A-Z\d-]{1,63}(?<!-)$", re.IGNORECASE)

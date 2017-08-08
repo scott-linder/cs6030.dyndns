@@ -1,22 +1,22 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
-Description: Outputs the time
+Description: Dynamic DNS Provider
 Resources:
-  DynDNSPostFunction:
+  PutFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: register.handler
+      Handler: index.put
       Runtime: python3.6
       CodeUri: ./src
       Policies: AmazonDynamoDBFullAccess
       Events:
-        DynDNSApi:
+        Api:
           Type: Api
           Properties:
             Path: /register/{subdomain}
-            Method: POST
+            Method: PUT
       Environment:
         Variables:
-          TABLE_NAME: !Ref DynDNSTable
-  DynDNSTable:
+          TABLE_NAME: !Ref Table
+  Table:
     Type: AWS::Serverless::SimpleTable
