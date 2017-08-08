@@ -2,15 +2,26 @@ AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 Description: Outputs the time
 Resources:
-  DynDNSFunction:
+  DynDNSPostFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: index.handler
+      Handler: register.handler
       Runtime: python3.6
-      CodeUri: ./
+      CodeUri: ./src
       Events:
         DynDNSApi:
           Type: Api
           Properties:
-            Path: /DynDNS
-            Method: GET
+            Path: /register/{subdomain}
+            Method: POST
+      Environment:
+        Variables:
+          TABLE_NAME: !Ref DynDNSTable
+  DynDNSTable:
+    Type: AWS::ServerLess::SimpleTable
+    Properties:
+      Name: subdomain
+      Type: String
+    ProvisionedThroughput:
+      ReadCapacityUnits: 5
+      WriteCapacityUnits: 5
