@@ -20,8 +20,9 @@ Resources:
   DynDNSTable:
     Type: AWS::ServerLess::SimpleTable
     Properties:
-      Name: subdomain
-      Type: String
-    ProvisionedThroughput:
-      ReadCapacityUnits: 5
-      WriteCapacityUnits: 5
+      PrimaryKey:
+        Name: subdomain
+        Type: String
+      ProvisionedThroughput:
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
