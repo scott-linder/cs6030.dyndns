@@ -8,9 +8,15 @@ Resources:
       Handler: register.handler
       Runtime: python3.6
       CodeUri: ./src
+      Policies: AmazonDynamoDBFullAccess
       Events:
         DynDNSApi:
           Type: Api
           Properties:
             Path: /register/{subdomain}
             Method: POST
+      Environment:
+        Variables:
+          TABLE_NAME: !Ref DynDNSTable
+  DynDNSTable:
+    Type: AWS::ServerLess::SimpleTable

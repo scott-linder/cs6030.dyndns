@@ -14,10 +14,10 @@ def handler(event, context):
     table = dynamodb.Table(os.environ['TABLE_NAME'])
     table.put_item(
         Item={
-            'subdomain': subdomain,
+            'id': subdomain,
             'key': key
         },
         # Prevent replacing an existing entry for the given subdomain.
-        ConditionExpression='attribute_not_exists(subdomain)'
+        ConditionExpression='attribute_not_exists(id)'
     )
     return { 'statusCode': '200', 'body': key }
