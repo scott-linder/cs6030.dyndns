@@ -2,15 +2,15 @@ AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 Description: Outputs the time
 Resources:
-  TimeFunction:
+  DynDNSFunction:
     Type: AWS::Serverless::Function
     Properties:
       Handler: index.handler
-      Runtime: nodejs6.10
+      Runtime: python3.6
       CodeUri: ./
       Events:
-        MyTimeApi:
+        DynDNSApi:
           Type: Api
           Properties:
-            Path: /TimeResource
+            Path: /DynDNS
             Method: GET
