@@ -9,7 +9,7 @@ def handler(event, context):
     allowed = re.compile("(?!-)[A-Z\d-]{1,63}(?<!-)$", re.IGNORECASE)
     if not allowed.match(subdomain):
         return { 'statusCode': '400', 'body': 'invalid subdomain ' + subdomain }
-    key = uuid.uuid4()
+    key = str(uuid.uuid4())
     dynamodb = boto3.resource('dynamodb')
     table = dynamodb.Table(os.environ['TABLE_NAME'])
     table.put_item(
