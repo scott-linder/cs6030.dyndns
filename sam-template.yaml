@@ -2,10 +2,10 @@ AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 Description: Dynamic DNS Provider
 Resources:
-  PostFunction:
+  UpdateFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: index.post
+      Handler: index.update
       Runtime: python3.6
       CodeUri: ./src
       Policies: AmazonDynamoDBFullAccess
@@ -13,16 +13,16 @@ Resources:
         Api:
           Type: Api
           Properties:
-            Path: /subdomain/{subdomain}
+            Path: /update/{subdomain}
             Method: POST
       Environment:
         Variables:
           TABLE_NAME: !Ref Table
           ZONE_ID: !Ref Zone
-  PutFunction:
+  RegisterFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: index.put
+      Handler: index.register
       Runtime: python3.6
       CodeUri: ./src
       Policies:
@@ -32,8 +32,8 @@ Resources:
         Api:
           Type: Api
           Properties:
-            Path: /subdomain/{subdomain}
-            Method: PUT
+            Path: /register/{subdomain}
+            Method: POST
       Environment:
         Variables:
           TABLE_NAME: !Ref Table

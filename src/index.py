@@ -3,7 +3,7 @@ import re
 import boto3
 import uuid
 
-def put(event, context):
+def update(event, context):
     subdomain = event['pathParameters']['subdomain']
     key = event['queryStringParameters']['key']
     ip = event['queryStringParameters']['ip']
@@ -41,7 +41,7 @@ def put(event, context):
     )
     return { 'statusCode': '200', 'body': 'ok' }
 
-def post(event, context):
+def register(event, context):
     subdomain = event['pathParameters']['subdomain']
     # regex to match valid subdomain label
     allowed = re.compile("(?!-)[A-Z\d-]{1,63}(?<!-)$", re.IGNORECASE)
