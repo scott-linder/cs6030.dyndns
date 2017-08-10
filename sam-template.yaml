@@ -19,6 +19,23 @@ Resources:
         Variables:
           TABLE_NAME: !Ref Table
           ZONE_ID: !Ref Zone
+  PutFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: index.put
+      Runtime: python3.6
+      CodeUri: ./src
+      Policies: AmazonDynamoDBReadOnlyAccess
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /subdomain/{subdomain}
+            Method: PUT
+      Environment:
+        Variables:
+          TABLE_NAME: !Ref Table
+          ZONE_ID: !Ref Zone
   Table:
     Type: AWS::Serverless::SimpleTable
   Zone:

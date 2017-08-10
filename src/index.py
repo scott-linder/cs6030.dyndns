@@ -3,6 +3,45 @@ import re
 import boto3
 import uuid
 
+def put(event, context):
+    subdomain = event['pathParameters']['subdomain']
+    key = event['queryStringParameters']['key']
+    ip = event['queryStringParameters']['ip']
+
+    dynamodb = boto3.resource('dynamodb')
+    table = dynamodb.Table(os.environ['TABLE_NAME'])
+    entry = table.get_item(
+        Key={
+            'id': subdomain,
+            'key': key
+        }
+    )
+    if not 'Item' in entry:
+        return { 'statusCode': '400', 'body': 'Invalid subdomain or key' }
+
+    route53 = boto3.client('route53')
+    route53.change_resource_record_sets(
+        HostedZoneId=os.environ['ZONE_ID'],
+        ChangeBatch={
+            'Changes': [
+                {
+                    'Action': 'UPSERT',
+                    'ResourceRecordSet': {
+                        'Name': subdomain + '.ibidns.com.',
+                        'Type': 'A',
+                        'TTL': 300,
+                        'ResourceRecords': [
+                            {
+                                'Value': ip
+                            }
+                        ]
+                    }
+                }
+            ]
+        }
+    )
+    return { 'statusCode': '200', 'body': 'ok' }
+
 def post(event, context):
     subdomain = event['pathParameters']['subdomain']
     # regex to match valid subdomain label
