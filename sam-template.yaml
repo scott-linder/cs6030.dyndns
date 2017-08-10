@@ -2,10 +2,10 @@ AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 Description: Dynamic DNS Provider
 Resources:
-  PutFunction:
+  PostFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: index.put
+      Handler: index.post
       Runtime: python3.6
       CodeUri: ./src
       Policies: AmazonDynamoDBFullAccess
@@ -13,10 +13,15 @@ Resources:
         Api:
           Type: Api
           Properties:
-            Path: /register/{subdomain}
-            Method: PUT
+            Path: /subdomain/{subdomain}
+            Method: POST
       Environment:
         Variables:
           TABLE_NAME: !Ref Table
+          ZONE_ID: !Ref Zone
   Table:
     Type: AWS::Serverless::SimpleTable
+  Zone:
+    Type: AWS::Route53::HostedZone
+    Properties:
+      Name: "ibidns.com."
