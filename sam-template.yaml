@@ -25,7 +25,9 @@ Resources:
       Handler: index.put
       Runtime: python3.6
       CodeUri: ./src
-      Policies: AmazonDynamoDBReadOnlyAccess
+      Policies:
+        - AmazonDynamoDBReadOnlyAccess
+        - AmazonRoute53FullAccess
       Events:
         Api:
           Type: Api
