@@ -12,11 +12,10 @@ def put(event, context):
     table = dynamodb.Table(os.environ['TABLE_NAME'])
     entry = table.get_item(
         Key={
-            'id': subdomain,
-            'key': key
+            'id': subdomain
         }
     )
-    if not 'Item' in entry:
+    if not 'Item' in entry or not entry['Item']['key'] == key:
         return { 'statusCode': '400', 'body': 'Invalid subdomain or key' }
 
     route53 = boto3.client('route53')
